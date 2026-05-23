@@ -84,8 +84,14 @@ class ResearcherAgent:
                 ]
             )
             
-            # Parse the response
-            research_result = response['message']['content']
+            # Parse the response safely
+            if not response or 'message' not in response:
+                print("Warning: Empty response from Ollama")
+                company.core_problem = "Need to identify specific business challenges"
+                company.pain_points = ["General industry challenges", "Market competition"]
+                return company
+            
+            research_result = response.get('message', {}).get('content', '')
             
             # Extract key information from research
             company.core_problem = self._extract_core_problem(research_result)
@@ -103,20 +109,57 @@ class ResearcherAgent:
     def _extract_core_problem(self, text: str) -> str:
         """Extract core problem from research text"""
         # Simple extraction - in production, use more sophisticated parsing
-        if "problem" in text.lower():
-            return text.split("problem")[1].split(".")[0].strip()[:100]
+        if not text or len(text) == 0:
+            return "Core business challenge needs identification"
+        
+        text_lower = text.lower()
+        if "problem" in text_lower:
+            parts = text.split("problem")
+            if len(parts) > 1:
+                try:
+                    return parts[1].split(".")[0].strip()[:100]
+                except (IndexError, AttributeError):
+                    return "Core business challenge needs identification"
+        
+        # Try alternative keywords
+        keywords = ["challenge", "issue", "struggle", "difficulty", "concern"]
+        for keyword in keywords:
+            if keyword in text_lower:
+                parts = text.split(keyword)
+                if len(parts) > 1:
+                    try:
+                        return parts[1].split(".")[0].strip()[:100]
+                    except (IndexError, AttributeError):
+                        return "Core business challenge needs identification"
+        
         return "Core business challenge needs identification"
     
     def _extract_pain_points(self, text: str) -> List[str]:
         """Extract pain points from research text"""
         points = []
-        if "pain" in text.lower() or "challenge" in text.lower():
+        
+        if not text or len(text) == 0:
+            return ["General operational challenges"]
+        
+        text_lower = text.lower()
+        if "pain" in text_lower or "challenge" in text_lower:
             # Extract pain points
             lines = text.split("\n")
             for line in lines:
-                if "pain" in line.lower() or "challenge" in line.lower():
-                    points.append(line.strip()[:100])
-        return points[:5] if points else ["General operational challenges"]
+                line_lower = line.lower()
+                if "pain" in line_lower or "challenge" in line_lower:
+                    try:
+                        point = line.strip()[:100]
+                        if point:
+                            points.append(point)
+                    except (IndexError, AttributeError):
+                        continue
+        
+        # If no pain points found, use defaults
+        if not points:
+            points = ["General operational challenges", "Market competition", "Customer retention"]
+        
+        return points[:5]
 
 
 class CopywriterAgent:
@@ -151,7 +194,12 @@ class CopywriterAgent:
                 ]
             )
             
-            return response['message']['content']
+            # Parse the response safely
+            if not response or 'message' not in response:
+                print("Warning: Empty response from Ollama")
+                return self._fallback_email(company, resume)
+            
+            return response.get('message', {}).get('content', self._fallback_email(company, resume))
             
         except Exception as e:
             print(f"Copywriting error: {e}")

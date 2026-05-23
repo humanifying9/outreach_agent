@@ -42,7 +42,7 @@ class ResumeData:
 class ResearcherAgent:
     """Agent that researches companies and extracts core problems"""
     
-    def __init__(self, model: str = "llama3"):
+    def __init__(self, model: str = "qwen3.5"):
         self.model = model
         self.system_prompt = """You are a professional business researcher. 
         Your task is to analyze company websites and extract their core problems, 
@@ -122,7 +122,7 @@ class ResearcherAgent:
 class CopywriterAgent:
     """Agent that writes personalized cold emails"""
     
-    def __init__(self, model: str = "llama3"):
+    def __init__(self, model: str = "qwen3.5"):
         self.model = model
         self.system_prompt = """You are an expert copywriter specializing in personalized cold emails.
         Your goal is to write highly relevant, personalized emails that:
@@ -232,7 +232,7 @@ Best,
 class ColdEmailer:
     """Main orchestrator for the cold emailer system"""
     
-    def __init__(self, model: str = "llama3", resume_file: str = "resume.json"):
+    def __init__(self, model: str = "qwen3.5", resume_file: str = "resume.json"):
         self.model = model
         self.resume_file = resume_file
         self.researcher = ResearcherAgent(model)
@@ -426,7 +426,7 @@ def main():
     print("Make sure Ollama is running and you have a model loaded.\n")
     
     # Create the emailer
-    emailer = ColdEmailer(model="llama3")
+    emailer = ColdEmailer(model="qwen3.5")
     
     # Load resume
     emailer.load_resume()

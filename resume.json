@@ -1,0 +1,32 @@
+{
+  "name": "Your Name",
+  "email": "your.email@example.com",
+  "phone": "",
+  "skills": [
+    "Python",
+    "Data Analysis",
+    "Project Management",
+    "Communication"
+  ],
+  "projects": [
+    {
+      "name": "Project 1",
+      "description": "Description of project"
+    },
+    {
+      "name": "Project 2",
+      "description": "Description of project"
+    }
+  ],
+  "certifications": [],
+  "interests": [
+    "Technology",
+    "Innovation",
+    "Leadership"
+  ],
+  "writing_style": {
+    "tone": "professional yet conversational",
+    "length": "concise",
+    "signature": "Best regards,"
+  }
+}

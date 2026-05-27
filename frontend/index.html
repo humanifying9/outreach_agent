@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ColdEmailer</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <header>
+    <h1>ColdEmailer</h1>
+    <div class="connection">
+      <span id="gmail-status" class="badge badge-off">Gmail: not connected</span>
+      <span id="hunter-status" class="badge badge-off">Hunter: not configured</span>
+      <button id="connect-btn">Connect Gmail</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel">
+      <h2>1. Find leads</h2>
+      <label>Who do you want to reach?
+        <input id="query" type="text" placeholder="e.g. AI startups in San Francisco hiring engineers" />
+      </label>
+      <div class="row">
+        <label>Max companies
+          <input id="max" type="number" value="5" min="1" max="20" />
+        </label>
+        <label>Personal angle (optional)
+          <input id="interests" type="text" placeholder="recently visited their booth at TechCrunch" />
+        </label>
+      </div>
+      <label class="checkbox">
+        <input id="create-drafts" type="checkbox" checked />
+        Create drafts in Gmail (otherwise drafts stay in this UI only)
+      </label>
+      <button id="start-btn" class="primary">Start campaign</button>
+      <p class="hint">A Chrome window will open so you can watch the agent work.</p>
+    </section>
+
+    <section class="panel">
+      <h2>2. Live activity</h2>
+      <div id="log" class="log"></div>
+    </section>
+
+    <section class="panel">
+      <h2>3. Drafts</h2>
+      <div id="drafts"></div>
+    </section>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

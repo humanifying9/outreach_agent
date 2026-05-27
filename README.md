@@ -1,4 +1,4 @@
-# ColdEmailer
+# Outreach Agent
 
 Browser-based cold-email agent. Type who you want to reach, watch a real Chrome window discover companies and contacts, review LLM-written drafts, and have them saved straight into your Gmail drafts folder for you to send manually.
 
